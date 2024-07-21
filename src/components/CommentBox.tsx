@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
-import { useComments } from "../../hooks/useComments";
-import { CommentType } from "../../utils";
+import { useComments } from "../hooks/useComments";
+import { CommentType } from "../utils";
 
 export const CommentBox: React.FC = () => {
   const [, setComments] = useComments();

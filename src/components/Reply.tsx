@@ -1,6 +1,6 @@
 import React from "react";
-import { CommentType, ReplyContainerType } from "../../utils";
-import { useComments } from "../../hooks/useComments";
+import { CommentType, ReplyContainerType } from "../utils";
+import { useComments } from "../hooks/useComments";
 
 const Reply: React.FC<ReplyContainerType> = ({ rp, commentId }) => {
   const [, setComments] = useComments();

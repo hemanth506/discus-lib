@@ -1,6 +1,6 @@
 import React from "react";
-import { CommentBox } from "./components/Comment-Box/CommentBox";
-import { CommentThread } from "./components/Comment-Thread/CommentThread";
+import { CommentBox } from "./components/CommentBox";
+import { CommentThread } from "./components/CommentThread";
 import { CommentProvider } from "./contexts/CommentContext";
 
 function App() {

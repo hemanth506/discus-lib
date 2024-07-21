@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { CommentType, ReplyBoxType, ReplyType } from "../../utils";
-import { useComments } from "../../hooks/useComments";
+import { CommentType, ReplyBoxType, ReplyType } from "../utils";
+import { useComments } from "../hooks/useComments";
 
 export const ReplyBox: React.FC<ReplyBoxType> = ({
   reply,

@@ -1,6 +1,6 @@
 import React from "react";
 import { Comment } from "./Comment";
-import { useComments } from "../../hooks/useComments";
+import { useComments } from "../hooks/useComments";
 
 export const CommentThread: React.FC = () => {
   const [comments,] = useComments();
