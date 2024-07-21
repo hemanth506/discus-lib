@@ -3,7 +3,7 @@ import { CommentBox } from "./components/CommentBox";
 import { CommentThread } from "./components/CommentThread";
 import { CommentProvider } from "./contexts/CommentContext";
 
-function App() {
+function Discus() {
   return (
     <div className="App">
       <CommentProvider>
@@ -14,4 +14,4 @@ function App() {
   );
 }
 
-export default App;
+export default Discus;
