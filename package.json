@@ -1,6 +1,6 @@
 {
   "name": "discus-lib",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "description": "",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -15,7 +15,12 @@
     "type": "git",
     "url": "git+https://github.com/hemanth506/discus-lib"
   },
-  "keywords": ["react", "typescript", "discus-lib", "comment section"],
+  "keywords": [
+    "react",
+    "typescript",
+    "discus-lib",
+    "comment section"
+  ],
   "author": "Hemanth Raaj G (hemanthraaj31@gmail.com)",
   "license": "MIT",
   "devDependencies": {
@@ -30,7 +35,8 @@
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "tslib": "^2.6.3"
   },
   "peerDependencies": {
     "react": ">=16"
