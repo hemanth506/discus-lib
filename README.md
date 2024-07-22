@@ -16,7 +16,7 @@ npm i discus-lib
 
 To use **discus-lib**, import the `Discus` component and integrate it into your React application. Ensure to remove `<React.StrictMode>` tags when using this component to prevent multiple renders.
 
-The component can also take an object as props which holds the name of the user to be displayed. If the property is not mentioned it will display as __Unknown User__
+The component can also take props which is a "string" that holds the name of the user to be displayed. If the property is not mentioned it will display as __Unknown User__
 
 ```node
 import React from 'react';
