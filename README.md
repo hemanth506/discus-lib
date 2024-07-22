@@ -16,7 +16,9 @@ npm i discus-lib
 
 To use **discus-lib**, import the `Discus` component and integrate it into your React application. Ensure to remove `<React.StrictMode>` tags when using this component to prevent multiple renders.
 
-The component can also take props which is a "string" that holds the name of the user to be displayed. If the property is not mentioned it will display as __Unknown User__
+The component can also take two properties:
+ * `name`: "string" that holds the name of the user to be displayed. If the property is not mentioned it will display as __Unknown User__
+ * `setDiscussion`: "React state function" that hold the function to set the comments from the package and that can be manipulated in the actual component.
 
 ```node
 import React, { useState } from 'react';
@@ -67,8 +69,39 @@ const App: React.FC = () => {
 };
 
 export default App;
+```
+
+## Output 
+
+The comments structure which is captured in the `setDiscussion` state function will be as an array[] of object and the sample object is shown as below.
 
 ```
+[
+  {
+    id: string;
+    userName: string;
+    comment: string;
+    timestamp: Date;
+    reply: [
+        {
+        id: string;
+        userName: string;
+        reply: string;
+        timestamp: Date;
+        likeCount: number;
+        dislikeCount: number;
+      },
+    ],
+    likeCount: number;
+    dislikeCount: number;
+  },
+]
+```
+
 ## License
 
 This project is licensed under the *MIT License*. See the [LICENSE](https://docs.npmjs.com/policies/npm-license) file for details.
+
+## Author
+
+Hemanth Raaj G [hemanthraaj31@gmail.com]
