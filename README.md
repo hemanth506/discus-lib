@@ -101,7 +101,3 @@ The comments structure which is captured in the `setDiscussion` state function w
 ## License
 
 This project is licensed under the *MIT License*. See the [LICENSE](https://docs.npmjs.com/policies/npm-license) file for details.
-
-## Author
-
-Hemanth Raaj G [hemanthraaj31@gmail.com]
