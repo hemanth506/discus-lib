@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { CommentBox } from "./components/CommentBox";
 import { CommentThread } from "./components/CommentThread";
 import { CommentContextType, CommentType, DiscusProps } from "./utils";
@@ -9,10 +9,15 @@ export const CommentContext = createContext<CommentContextType>([
   () => {},
 ]);
 
-const Discus: React.FC<DiscusProps> = ({name = "Unknown User"}) => {
+const Discus: React.FC<DiscusProps> = ({name = "Unknown User", setDiscussion}) => {
   const [userName] = useState<string>(name);
   const [comments, setComments] = useState<CommentType[] | undefined>([]);
 
+  useEffect(() => {
+    setDiscussion(comments);
+    // console.log("SetDiscussion triggered", comments);
+  }, [comments, setDiscussion])
+  
   return (
     <div className="App">
       <UserNameContext.Provider value={userName}>

@@ -19,14 +19,45 @@ To use **discus-lib**, import the `Discus` component and integrate it into your 
 The component can also take props which is a "string" that holds the name of the user to be displayed. If the property is not mentioned it will display as __Unknown User__
 
 ```node
-import React from 'react';
+import React, { useState } from 'react';
 import { Discus } from 'discus-lib';
 
-const discusProps = {
-  name: "Person 1"
-}
+// TypeScript types
+
+type ReplyType = {
+  id: string;
+  userName: string;
+  reply: string;
+  timestamp: Date;
+  likeCount: number;
+  dislikeCount: number;
+};
+
+type CommentType = {
+  id: string;
+  userName: string;
+  comment: string;
+  timestamp: Date;
+  reply: ReplyType[];
+  likeCount: number;
+  dislikeCount: number;
+};
+
+type DiscusProps = {
+  name: string;
+  setDiscussion: React.Dispatch<React.SetStateAction<CommentType[] | undefined>>;
+};
+
+// App Component
 
 const App: React.FC = () => {
+  const [discussion, setDiscussion] = useState<CommentType[] | undefined>([]);
+
+  const discusProps: DiscusProps = {
+    name: "Person 1",
+    setDiscussion
+  };
+
   return (
     <div className="App">
       <h1>My App</h1>
@@ -36,6 +67,7 @@ const App: React.FC = () => {
 };
 
 export default App;
+
 ```
 ## License
 

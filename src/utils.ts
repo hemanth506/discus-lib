@@ -1,7 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
-
-export interface DiscusProps  {
+export type DiscusProps = {
   name: string;
+  setDiscussion: React.Dispatch<React.SetStateAction<CommentType[] | undefined>>
 }
 
 export type ReplyType = {
@@ -30,7 +29,7 @@ export type CommentContextType = [
 
 export type ReplyBoxType = {
   reply: ReplyType[];
-  setShowCommentBox: Dispatch<SetStateAction<boolean>>;
+  setShowCommentBox: React.Dispatch<React.SetStateAction<boolean>>;
   commentId: string;
 };
 

@@ -24,7 +24,7 @@ export const ReplyBox: React.FC<ReplyBoxType> = ({
       dislikeCount: 0,
     };
 
-    console.log("newReply", newReply);
+    // console.log("newReply", newReply);
 
     setComments((prevComments: CommentType[] | undefined) => {
       const newReplyComments = prevComments?.map((comment) => {
@@ -33,7 +33,7 @@ export const ReplyBox: React.FC<ReplyBoxType> = ({
         }
         return comment;
       });
-      console.log(newReplyComments);
+      // console.log(newReplyComments);
       return newReplyComments;
     });
 
