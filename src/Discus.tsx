@@ -1,17 +1,28 @@
-import React from "react";
+import React, { createContext, useState } from "react";
 import { CommentBox } from "./components/CommentBox";
 import { CommentThread } from "./components/CommentThread";
-import { CommentProvider } from "./contexts/CommentContext";
+import { CommentContextType, CommentType, DiscusProps } from "./utils";
 
-function Discus() {
+export const UserNameContext = createContext<string>("");
+export const CommentContext = createContext<CommentContextType>([
+  undefined,
+  () => {},
+]);
+
+const Discus: React.FC<DiscusProps> = ({name = "Unknown User"}) => {
+  const [userName] = useState<string>(name);
+  const [comments, setComments] = useState<CommentType[] | undefined>([]);
+
   return (
     <div className="App">
-      <CommentProvider>
-        <CommentBox />
-        <CommentThread />
-      </CommentProvider>
+      <UserNameContext.Provider value={userName}>
+        <CommentContext.Provider value={[comments, setComments]}>
+          <CommentBox />
+          <CommentThread />
+        </CommentContext.Provider>
+      </UserNameContext.Provider>
     </div>
   );
-}
+};
 
 export default Discus;

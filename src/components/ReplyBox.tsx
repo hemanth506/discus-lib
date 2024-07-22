@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { CommentType, ReplyBoxType, ReplyType } from "../utils";
 import { useComments } from "../hooks/useComments";
+import { useUserName } from "../hooks/useUserName";
 
 export const ReplyBox: React.FC<ReplyBoxType> = ({
   reply,
   setShowCommentBox,
   commentId,
 }) => {
+  const userName = useUserName();
   const [, setComments] = useComments();
   const [replyMessage, setReplyMessage] = useState("");
 
@@ -15,7 +17,7 @@ export const ReplyBox: React.FC<ReplyBoxType> = ({
 
     const newReply: ReplyType = {
       id: timestamp.toUTCString(),
-      userName: `Hemanth Raaj`,
+      userName,
       timestamp,
       reply: replyMessage,
       likeCount: 0,

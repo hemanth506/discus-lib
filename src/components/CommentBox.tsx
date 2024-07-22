@@ -1,9 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
 import { useComments } from "../hooks/useComments";
 import { CommentType } from "../utils";
+import { useUserName } from "../hooks/useUserName";
 
 export const CommentBox: React.FC = () => {
   const [, setComments] = useComments();
+  const userName = useUserName();
   const [comment, setComment] = useState("");
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -15,7 +17,7 @@ export const CommentBox: React.FC = () => {
     
     const newComment: CommentType = {
       id: timestamp.toUTCString(),
-      userName: `Hemanth Raaj`,
+      userName,
       comment,
       timestamp,
       reply: [],

@@ -1,5 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
 
+export interface DiscusProps  {
+  name: string;
+}
+
 export type ReplyType = {
   id: string;
   userName: string;
