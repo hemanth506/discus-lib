@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CommentBox } from "./CommentBox";
-
-export type CommentType = {
-  id: string;
-  userName: string;
-  comment: string;
-  timestamp: Date;
-  reply: CommentType[];
-  likeCount: number;
-  dislikeCount: number;
-};
+import { CommentType } from "../utils";
 
 type CommentCompType = {
   cmt: CommentType;
@@ -20,24 +11,24 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
   const [innerComments, setInnerComments] = useState<CommentType[] | undefined>(
     cmt.reply
   );
+
   const [showCommentBox, setShowCommentBox] = useState(false);
 
   useEffect(() => {
     setComments((prevComments: CommentType[] | undefined) => {
       const newComments = prevComments?.map((comment) => {
-        if(comment.id === cmt.id) {
-          if(innerComments !== undefined) {
+        if (comment.id === cmt.id) {
+          if (innerComments !== undefined) {
             comment.reply = innerComments;
           }
         }
         return comment;
-      })
+      });
       return newComments;
-    })
-  }, [cmt, innerComments, setComments])
-  
+    });
+  }, [cmt, innerComments, setComments]);
 
-  const ReplyHandler = (): void => {
+  const ShowCommentHandler = (): void => {
     setShowCommentBox(true);
   };
 
@@ -140,20 +131,23 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
               }}
             >
               {!showCommentBox && (
-                <span style={{ cursor: "pointer" }} onClick={ReplyHandler}>
+                <span style={{ cursor: "pointer" }} onClick={ShowCommentHandler}>
                   Reply
                 </span>
               )}
             </div>
 
-            {showCommentBox && (
-              <CommentBox
-                comments={innerComments}
-                setComments={setInnerComments}
-              />
-            )}
+            {/* {showCommentBox && (
+            )} */}
           </div>
         </div>
+        <CommentBox
+          comments={innerComments}
+          setComments={setInnerComments}
+          isReply={true}
+          showCommentBox={showCommentBox}
+          setShowCommentBox={setShowCommentBox}
+        />
       </div>
     </div>
   );
