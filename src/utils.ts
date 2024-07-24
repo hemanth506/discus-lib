@@ -16,6 +16,7 @@ export type CommentType = {
   timestamp: Date;
   reply: ReplyType[];
   likeCount: number;
+  
   dislikeCount: number;
 };
 
