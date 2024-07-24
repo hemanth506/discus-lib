@@ -1,30 +1,50 @@
-import React, { useState } from "react";
-import { ReplyBox } from "./ReplyBox";
-import { CommentType } from "../../utils";
-import Reply from "./Reply";
-import { useComments } from "../../hooks/useComments";
+import React, { useEffect, useState } from "react";
+import { CommentBox } from "./CommentBox";
 
-export const Comment: React.FC<CommentType> = ({
-  id,
-  userName,
-  comment,
-  timestamp,
-  likeCount,
-  dislikeCount,
-  reply,
-}) => {
-  const [, setComments] = useComments();
+export type CommentType = {
+  id: string;
+  userName: string;
+  comment: string;
+  timestamp: Date;
+  reply: CommentType[];
+  likeCount: number;
+  dislikeCount: number;
+};
 
+type CommentCompType = {
+  cmt: CommentType;
+  setComments: React.Dispatch<React.SetStateAction<CommentType[] | undefined>>;
+};
+
+export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
+  const [innerComments, setInnerComments] = useState<CommentType[] | undefined>(
+    cmt.reply
+  );
   const [showCommentBox, setShowCommentBox] = useState(false);
 
-  const ReplyHandler = () => {
+  useEffect(() => {
+    setComments((prevComments: CommentType[] | undefined) => {
+      const newComments = prevComments?.map((comment) => {
+        if(comment.id === cmt.id) {
+          if(innerComments !== undefined) {
+            comment.reply = innerComments;
+          }
+        }
+        return comment;
+      })
+      return newComments;
+    })
+  }, [cmt, innerComments, setComments])
+  
+
+  const ReplyHandler = (): void => {
     setShowCommentBox(true);
   };
 
   const commentLikeDislikeHandler = (operation: string): void => {
     setComments((prevComments: CommentType[] | undefined) => {
       const newComments = prevComments?.map((comment) => {
-        if (comment.id === id) {
+        if (comment.id === cmt.id) {
           if (operation === "like") {
             comment.likeCount += 1;
           } else if (operation === "dislike") {
@@ -54,7 +74,7 @@ export const Comment: React.FC<CommentType> = ({
     >
       <div id="c-head">
         <div id="c-name" style={{ fontWeight: "bolder" }}>
-          {userName}
+          {cmt.userName}
         </div>
         <div id="c-time" style={{ fontSize: "10px" }}>
           4 months
@@ -70,7 +90,7 @@ export const Comment: React.FC<CommentType> = ({
             gap: "3px",
           }}
         >
-          <div>{comment}</div>
+          <div>{cmt.comment}</div>
           <div
             style={{
               display: "flex",
@@ -95,7 +115,7 @@ export const Comment: React.FC<CommentType> = ({
                   👍
                 </span>
                 <span style={{ paddingTop: "1px" }}>
-                  {likeCount !== 0 && likeCount}
+                  {cmt.likeCount !== 0 && cmt.likeCount}
                 </span>
               </span>
 
@@ -107,7 +127,7 @@ export const Comment: React.FC<CommentType> = ({
                   👎
                 </span>
                 <span style={{ paddingTop: "1px" }}>
-                  {dislikeCount !== 0 && dislikeCount}
+                  {cmt.dislikeCount !== 0 && cmt.dislikeCount}
                 </span>
               </span>
             </div>
@@ -127,18 +147,11 @@ export const Comment: React.FC<CommentType> = ({
             </div>
 
             {showCommentBox && (
-              <ReplyBox
-              
-                reply={reply}
-                setShowCommentBox={setShowCommentBox}
-                commentId={id}
+              <CommentBox
+                comments={innerComments}
+                setComments={setInnerComments}
               />
             )}
-          </div>
-          <div style={{ marginLeft: "25px" }}>
-            {reply?.map((rp) => (
-              <Reply key={rp.id} commentId={id} rp={rp} />
-            ))}
           </div>
         </div>
       </div>
