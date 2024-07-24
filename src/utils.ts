@@ -3,21 +3,12 @@ export type DiscusProps = {
   setDiscussion: React.Dispatch<React.SetStateAction<CommentType[] | undefined>>
 }
 
-export type ReplyType = {
-  id: string;
-  userName: string;
-  reply: string;
-  timestamp: Date;
-  likeCount: number;
-  dislikeCount: number;
-};
-
 export type CommentType = {
   id: string;
   userName: string;
   comment: string;
   timestamp: Date;
-  reply: ReplyType[];
+  reply: CommentType[];
   likeCount: number;
   dislikeCount: number;
 };
@@ -27,13 +18,15 @@ export type CommentContextType = [
   React.Dispatch<React.SetStateAction<CommentType[] | undefined>>
 ];
 
-export type ReplyBoxType = {
-  reply: ReplyType[];
-  setShowCommentBox: React.Dispatch<React.SetStateAction<boolean>>;
-  commentId: string;
+export type CommentBoxCompType = {
+  comments: CommentType[] | undefined;
+  setComments: React.Dispatch<React.SetStateAction<CommentType[] | undefined>>;
+  isReply: boolean;
+  setShowCommentBox?: React.Dispatch<React.SetStateAction<boolean>>;
+  showCommentBox?: boolean;
 };
 
-export type ReplyContainerType = {
-  rp: ReplyType;
-  commentId: string;
+export type CommentCompType = {
+  cmt: CommentType;
+  setComments: React.Dispatch<React.SetStateAction<CommentType[] | undefined>>;
 };
