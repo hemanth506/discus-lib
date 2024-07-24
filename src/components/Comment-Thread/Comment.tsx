@@ -128,6 +128,7 @@ export const Comment: React.FC<CommentType> = ({
 
             {showCommentBox && (
               <ReplyBox
+              
                 reply={reply}
                 setShowCommentBox={setShowCommentBox}
                 commentId={id}
