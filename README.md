@@ -1,8 +1,10 @@
 # discus-lib
 
+This package is a user discussion components where the user can comment on a post and discuss on that.
+
 ## Overview
 
-**discus-lib** is a React component library built with TypeScript. It provides components for a `Comment box` where users can post comments and a `Comment thread` to display all the posted comments.
+**discus-lib** is a React component library built using TypeScript. It provides `Comment box` where users can post comments and a `Comment` to display all the posted comments.
 
 ## Installation
 
@@ -17,7 +19,7 @@ npm i discus-lib
 To use **discus-lib**, import the `Discus` component and integrate it into your React application. Ensure to remove `<React.StrictMode>` tags when using this component to prevent multiple renders.
 
 The component can also take two properties:
- * `name`: "string" that holds the name of the user to be displayed. If the property is not mentioned it will display as __Unknown User__
+ * `name`: "string" that holds the name of the user to be displayed. If the property is not mentioned it will display as *__Unknown User__*
  * `setDiscussion`: "React state function" that hold the function to set the comments from the package and that can be manipulated in the actual component.
 
 ```node
@@ -26,21 +28,12 @@ import { Discus } from 'discus-lib';
 
 // TypeScript types
 
-type ReplyType = {
-  id: string;
-  userName: string;
-  reply: string;
-  timestamp: Date;
-  likeCount: number;
-  dislikeCount: number;
-};
-
 type CommentType = {
   id: string;
   userName: string;
   comment: string;
   timestamp: Date;
-  reply: ReplyType[];
+  reply: CommentType[];
   likeCount: number;
   dislikeCount: number;
 };
@@ -73,10 +66,10 @@ export default App;
 
 ## Output 
 
-The comments structure which is captured in the `setDiscussion` state function will be as an array[] of object and the sample object is shown as below.
+The comments schema which is captured in the `setDiscussion` state function will be as an array[] of object that is shown as below.
 
 ```
-[
+CommentType = [
   {
     id: string;
     userName: string;
@@ -86,7 +79,7 @@ The comments structure which is captured in the `setDiscussion` state function w
         {
         id: string;
         userName: string;
-        reply: string;
+        reply: CommentType[];
         timestamp: Date;
         likeCount: number;
         dislikeCount: number;
@@ -98,6 +91,10 @@ The comments structure which is captured in the `setDiscussion` state function w
 ]
 ```
 
+### Note
+
+*__Discus__* component is a recursion based component where the *__Comment__* component will recursively call the *__CommentBox__* component for replying on that comment.
+
 ## License
 
-This project is licensed under the *MIT License*. See the [LICENSE](https://docs.npmjs.com/policies/npm-license) file for details.
+This project is licensed under the *__MIT License__*. See the [LICENSE](https://docs.npmjs.com/policies/npm-license) file for details.
