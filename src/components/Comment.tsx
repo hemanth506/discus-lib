@@ -49,7 +49,7 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
         display: "flex",
         flexDirection: "column",
         minWidth: "500px",
-        maxWidth: "600px",
+        maxWidth: "fit-content",
         gap: "6px",
         margin: "15px 25px",
         border: "1px solid grey",
