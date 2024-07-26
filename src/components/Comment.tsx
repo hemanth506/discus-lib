@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { CommentBox } from "./CommentBox";
 import { CommentType } from "../utils";
 
+// import {thumbsUp} from "../static/thumbs-up.png";
+
 type CommentCompType = {
   cmt: CommentType;
   setComments: React.Dispatch<React.SetStateAction<CommentType[] | undefined>>;
@@ -11,6 +13,8 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
   const [innerComments, setInnerComments] = useState<CommentType[] | undefined>(
     cmt.reply
   );
+  const [canVote, setCanVote] = useState(true);
+  const [liked, setLiked] = useState(false);
 
   const [showCommentBox, setShowCommentBox] = useState(false);
 
@@ -38,14 +42,23 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
         if (comment.id === cmt.id) {
           if (operation === "like") {
             comment.likeCount += 1;
+            setLiked(true);
+            if(!canVote) {
+              comment.dislikeCount -= 1;
+            }
           } else if (operation === "dislike") {
             comment.dislikeCount += 1;
+            setLiked(false);
+            if(!canVote) {
+              comment.likeCount -= 1;
+            }
           }
         }
         return comment;
       });
       return newComments;
     });
+    setCanVote(false);
   };
 
   return (
@@ -98,24 +111,32 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
                 padding: "5px 0px",
               }}
             >
-              <span style={{ width: "40px", display: "flex", gap: "3px" }}>
+              <span style={{ width: "40px", display: "flex", gap: "4px" }}>
                 <span
                   style={{ cursor: "pointer" }}
-                  onClick={() => commentLikeDislikeHandler("like")}
+                  onClick={canVote || !liked ? () => commentLikeDislikeHandler("like"): () => {}}
                 >
-                  👍
+                  <img
+                    src={require("../static/thumbs-up.png")}
+                    alt="thumbs-up"
+                    style={{ width: "15px" }}
+                  />
                 </span>
                 <span style={{ paddingTop: "1px" }}>
                   {cmt.likeCount !== 0 && cmt.likeCount}
                 </span>
               </span>
 
-              <span style={{ width: "40px", display: "flex", gap: "3px" }}>
+              <span style={{ width: "40px", display: "flex", gap: "4px" }}>
                 <span
                   style={{ cursor: "pointer" }}
-                  onClick={() => commentLikeDislikeHandler("dislike")}
+                  onClick={canVote || liked ? () => commentLikeDislikeHandler("dislike") : () => {}}
                 >
-                  👎
+                  <img
+                    src={require("../static/negative-vote.png")}
+                    alt="thumbs-up"
+                    style={{ width: "15px" }}
+                  />
                 </span>
                 <span style={{ paddingTop: "1px" }}>
                   {cmt.dislikeCount !== 0 && cmt.dislikeCount}
@@ -131,7 +152,10 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
               }}
             >
               {!showCommentBox && (
-                <span style={{ cursor: "pointer" }} onClick={ShowCommentHandler}>
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={ShowCommentHandler}
+                >
                   Reply
                 </span>
               )}
