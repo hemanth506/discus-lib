@@ -1,6 +1,7 @@
 export type DiscusProps = {
   name: string;
   setDiscussion: React.Dispatch<React.SetStateAction<CommentType[] | undefined>>
+  discussion: CommentType[]
 }
 
 export type CommentType = {

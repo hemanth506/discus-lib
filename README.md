@@ -20,6 +20,7 @@ To use **discus-lib**, import the `Discus` component and integrate it into your 
 
 The component can also take two properties:
  * `name`: "string" that holds the name of the user to be displayed. If the property is not mentioned it will display as *__Unknown User__*
+ * `discussion`: "CommentType[]" that hold the initial value for the package.
  * `setDiscussion`: "React state function" that hold the function to set the comments from the package and that can be manipulated in the actual component.
 
 ```node
@@ -40,17 +41,19 @@ type CommentType = {
 
 type DiscusProps = {
   name: string;
+  discussion: CommentType[];
   setDiscussion: React.Dispatch<React.SetStateAction<CommentType[] | undefined>>;
 };
 
 // App Component
 
 const App: React.FC = () => {
-  const [discussion, setDiscussion] = useState<CommentType[] | undefined>([]);
+  const [discussion, setDiscussion] = useState<CommentType[] | undefined>(discussion);
 
   const discusProps: DiscusProps = {
     name: "Person 1",
-    setDiscussion
+    discussion
+    setDiscussion,
   };
 
   return (
@@ -63,6 +66,8 @@ const App: React.FC = () => {
 
 export default App;
 ```
+
+The width of the component can be modified the size of the outer div in which it is wrapped.
 
 ## Output 
 
@@ -79,8 +84,9 @@ CommentType = [
         {
         id: string;
         userName: string;
-        reply: CommentType[];
+        comment: string,
         timestamp: Date;
+        reply: CommentType[];
         likeCount: number;
         dislikeCount: number;
       },

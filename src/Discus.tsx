@@ -11,9 +11,10 @@ export const CommentContext = createContext<CommentContextType>([
 const Discus: React.FC<DiscusProps> = ({
   name = "Unknown User",
   setDiscussion,
+  discussion = []
 }) => {
   const [userName] = useState<string>(name);
-  const [comments, setComments] = useState<CommentType[] | undefined>([]);
+  const [comments, setComments] = useState<CommentType[] | undefined>(discussion);
 
   useEffect(() => {
     setDiscussion(comments);
