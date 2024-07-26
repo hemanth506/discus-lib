@@ -1,6 +1,6 @@
 # discus-lib
 
-This package is a user discussion components where the user can comment on a post and discuss on that.
+A user discussion component library where the user can comment on a post and discuss among other users.
 
 ## Overview
 
@@ -67,7 +67,7 @@ const App: React.FC = () => {
 export default App;
 ```
 
-The width of the component can be modified the size of the outer div in which it is wrapped.
+The width of the component can be modified by the width of the outer div in which it is wrapped.
 
 ## Output 
 
