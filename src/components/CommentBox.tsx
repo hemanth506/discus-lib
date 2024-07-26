@@ -54,7 +54,7 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
       {(showCommentBox || !isReply) && (
         <div
           id="cb-container"
-          style={{ display: "flex", width: "450px", gap: "10px" }}
+          style={{ display: "flex", gap: "10px" }}
         >
           <input
             type="text"
