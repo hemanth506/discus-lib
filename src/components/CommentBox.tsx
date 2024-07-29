@@ -1,16 +1,9 @@
 import React, { ChangeEvent, useState } from "react";
-import { CommentType } from "../utils";
-import { Comment } from "./Comment";
+import { CommentBoxCompType, CommentType } from "../utils";
+import Comment from "./Comment";
+import { v4 as uuidv4 } from "uuid";
 
-type CommentBoxCompType = {
-  comments: CommentType[] | undefined;
-  setComments: React.Dispatch<React.SetStateAction<CommentType[] | undefined>>;
-  isReply: boolean;
-  setShowCommentBox?: React.Dispatch<React.SetStateAction<boolean>>;
-  showCommentBox?: boolean;
-};
-
-export const CommentBox: React.FC<CommentBoxCompType> = ({
+const CommentBox: React.FC<CommentBoxCompType> = ({
   comments,
   setComments,
   isReply,
@@ -24,11 +17,12 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
   };
 
   const addCommentHandler = () => {
-    if(comment.trim() !== "") {
+    if (comment.trim() !== "") {
+      const id = uuidv4();
       const timestamp = new Date();
-  
+
       const newComment: CommentType = {
-        id: timestamp.toUTCString(),
+        id,
         userName: `Hemanth Raaj`,
         comment,
         timestamp,
@@ -36,15 +30,15 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
         likeCount: 0,
         dislikeCount: 0,
       };
-  
+
       setComments((prevComments: CommentType[] | undefined) => {
         if (prevComments !== undefined) {
           return [...prevComments, newComment];
         }
       });
-  
+
       setComment("");
-      HideCommentHandler()
+      HideCommentHandler();
     }
   };
 
@@ -101,3 +95,5 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
     </div>
   );
 };
+
+export default React.memo(CommentBox);

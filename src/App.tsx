@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "./App.css";
-import { CommentBox } from "./components/CommentBox";
+import CommentBox from "./components/CommentBox";
 import { useComments } from "./hooks/useComments";
 
 function App() {
