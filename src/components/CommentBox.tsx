@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import Comment from "./Comment";
+import { Comment } from "./Comment";
 import { CommentBoxCompType, CommentType } from "../utils";
 import { useUserName } from "../hooks/useUserName";
 
-const CommentBox: React.FC<CommentBoxCompType> = ({
+export const CommentBox: React.FC<CommentBoxCompType> = ({
   comments,
   setComments,
   isReply,
@@ -95,5 +95,3 @@ const CommentBox: React.FC<CommentBoxCompType> = ({
     </div>
   );
 };
-
-export default React.memo(CommentBox);

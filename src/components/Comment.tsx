@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import CommentBox from "./CommentBox";
+import { CommentBox } from "./CommentBox";
 import { CommentCompType, CommentType } from "../utils";
 import thumbsDown from "../../assets/negative-vote.png";
 import thumbsUp from "../../assets/thumbs-up.png";
 
-const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
+export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
   const [innerComments, setInnerComments] = useState<CommentType[] | undefined>(
     cmt.reply
   );
@@ -207,5 +207,3 @@ const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
     </div>
   );
 };
-
-export default React.memo(Comment);
