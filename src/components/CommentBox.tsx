@@ -1,9 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+
+import Comment from "./Comment";
 import { CommentBoxCompType, CommentType } from "../utils";
 import { useUserName } from "../hooks/useUserName";
-import { Comment } from "./Comment";
 
-export const CommentBox: React.FC<CommentBoxCompType> = ({
+const CommentBox: React.FC<CommentBoxCompType> = ({
   comments,
   setComments,
   isReply,
@@ -19,10 +21,11 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
 
   const addCommentHandler = (): void => {
     if (comment.trim() !== "") {
+      const id = uuidv4();
       const timestamp = new Date();
 
       const newComment: CommentType = {
-        id: timestamp.toUTCString(),
+        id,
         userName,
         comment,
         timestamp,
@@ -52,10 +55,7 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
   return (
     <div>
       {(showCommentBox || !isReply) && (
-        <div
-          id="cb-container"
-          style={{ display: "flex", gap: "10px" }}
-        >
+        <div id="cb-container" style={{ display: "flex", gap: "10px" }}>
           <input
             type="text"
             aria-label="comment-box"
@@ -95,3 +95,5 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
     </div>
   );
 };
+
+export default React.memo(CommentBox);

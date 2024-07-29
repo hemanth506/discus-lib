@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+
+import CommentBox from "./CommentBox";
 import { CommentCompType, CommentType } from "../utils";
-import { CommentBox } from "./CommentBox";
 import thumbsDown from "../../assets/negative-vote.png";
 import thumbsUp from "../../assets/thumbs-up.png";
 
-export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
+const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
   const [innerComments, setInnerComments] = useState<CommentType[] | undefined>(
     cmt.reply
   );
@@ -55,6 +56,37 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
     setCanVote(false);
   };
 
+  const timeSince = (date: any) => {
+    const now: any = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+    let interval = Math.floor(seconds / 31536000);
+
+    if (interval >= 1) {
+      return interval + interval === 1 ? " year" : " years";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) {
+      return interval + interval === 1 ? " month" : " months";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) {
+      return interval + interval === 1 ? " day" : " days";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) {
+      return interval + interval === 1 ? " hour" : " hours";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) {
+      return interval + interval === 1 ? " minute" : " minutes";
+    }
+    if (Math.floor(seconds) !== 0) {
+      return Math.floor(seconds) + " seconds";
+    }
+
+    return "Just now";
+  };
+
   return (
     <div
       id="c-container"
@@ -75,7 +107,7 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
           {cmt.userName}
         </div>
         <div id="c-time" style={{ fontSize: "10px" }}>
-          4 months
+          {timeSince(cmt.timestamp)}
         </div>
       </div>
       <div id="c-body">
@@ -175,3 +207,5 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
     </div>
   );
 };
+
+export default React.memo(Comment);
