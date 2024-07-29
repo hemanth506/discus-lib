@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useState } from "react";
 import { CommentBoxCompType, CommentType } from "../utils";
-import Comment from "./Comment";
+import {Comment} from "./Comment";
 import { v4 as uuidv4 } from "uuid";
 
-const CommentBox: React.FC<CommentBoxCompType> = ({
+export const CommentBox: React.FC<CommentBoxCompType> = ({
   comments,
   setComments,
   isReply,
@@ -96,4 +96,4 @@ const CommentBox: React.FC<CommentBoxCompType> = ({
   );
 };
 
-export default React.memo(CommentBox);
+// export default React.memo(CommentBox);
