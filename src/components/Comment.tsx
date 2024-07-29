@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { CommentCompType, CommentType } from "../utils";
 import { CommentBox } from "./CommentBox";
+import thumbsDown from "../../assets/negative-vote.png";
+import thumbsUp from "../../assets/thumbs-up.png";
 
 export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
   const [innerComments, setInnerComments] = useState<CommentType[] | undefined>(
@@ -113,7 +115,7 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
                   }
                 >
                   <img
-                    src={require("../static/thumbs-up.png")}
+                    src={thumbsUp}
                     alt="thumbs-up"
                     style={{ width: "15px" }}
                   />
@@ -133,7 +135,7 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
                   }
                 >
                   <img
-                    src={require("../static/negative-vote.png")}
+                    src={thumbsDown}
                     alt="thumbs-up"
                     style={{ width: "15px" }}
                   />
