@@ -1,6 +1,6 @@
 {
   "name": "discus-lib",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A user discussion component library where the user can comment on a post and discuss among other users.",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -43,7 +43,8 @@
     "web-vitals": "^2.1.4"
   },
   "peerDependencies": {
-    "react": ">=16"
+    "react": ">=16",
+    "uuid": "10.0.0"
   },
   "eslintConfig": {
     "extends": [
