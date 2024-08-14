@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "./App.css";
-import {CommentBox} from "./components/CommentBox";
+import { CommentBox } from "./components/CommentBox";
 import { useComments } from "./hooks/useComments";
 
 function App() {
   const [comments, setComments] = useComments();
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     console.log(comments);
@@ -16,6 +17,7 @@ function App() {
         comments={comments}
         setComments={setComments}
         isReply={false}
+        inputRef={inputRef}
       />
     </div>
   );

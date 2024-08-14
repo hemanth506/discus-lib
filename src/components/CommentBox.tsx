@@ -1,6 +1,6 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { CommentBoxCompType, CommentType } from "../utils";
-import {Comment} from "./Comment";
+import { Comment } from "./Comment";
 import { v4 as uuidv4 } from "uuid";
 
 export const CommentBox: React.FC<CommentBoxCompType> = ({
@@ -9,8 +9,14 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
   isReply,
   showCommentBox,
   setShowCommentBox,
+  inputRef
 }) => {
   const [comment, setComment] = useState("");
+  
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  });
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
@@ -58,6 +64,7 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
         >
           <input
             type="text"
+            ref={inputRef}
             aria-label="comment-box"
             placeholder={isReply ? "Add your reply" : "Join the discussion"}
             style={{

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {CommentBox} from "./CommentBox";
 import { CommentCompType, CommentType } from "../utils";
 
@@ -8,6 +8,7 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
   );
   const [canVote, setCanVote] = useState(true);
   const [liked, setLiked] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [showCommentBox, setShowCommentBox] = useState(false);
 
@@ -203,6 +204,7 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
           isReply={true}
           showCommentBox={showCommentBox}
           setShowCommentBox={setShowCommentBox}
+          inputRef={inputRef}
         />
       </div>
     </div>

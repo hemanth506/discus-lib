@@ -20,6 +20,7 @@ export type CommentBoxCompType = {
   isReply: boolean;
   setShowCommentBox?: React.Dispatch<React.SetStateAction<boolean>>;
   showCommentBox?: boolean;
+  inputRef: React.MutableRefObject<HTMLInputElement | null>;
 };
 
 export type CommentCompType = {
