@@ -12,6 +12,7 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
   inputRef,
   expandNestedComments,
   parentId,
+  setExpandNestedComments
 }) => {
   const [comment, setComment] = useState("");
 
@@ -49,6 +50,9 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
 
       setComment("");
       HideCommentHandler();
+      if(setExpandNestedComments) {
+        setExpandNestedComments(true);
+      }
     }
   };
 
@@ -61,7 +65,7 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
 
   return (
     <div>
-      {expandNestedComments && (showCommentBox || !isReply) && (
+      {(showCommentBox || !isReply) && (
         <div
           id="cb-container"
           style={{ display: "flex", width: "450px", gap: "10px" }}
