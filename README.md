@@ -37,6 +37,7 @@ type CommentType = {
   reply: CommentType[];
   likeCount: number;
   dislikeCount: number;
+  parentId: string;
 };
 
 type DiscusProps = {
@@ -89,10 +90,12 @@ CommentType = [
         reply: CommentType[];
         likeCount: number;
         dislikeCount: number;
+        parentId: string;
       },
     ],
     likeCount: number;
     dislikeCount: number;
+    parentId: string;
   },
 ]
 ```
