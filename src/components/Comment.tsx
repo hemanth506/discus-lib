@@ -178,11 +178,9 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
             </div>
             {hasNestedComments && cmt.reply[0] && (
               <div style={showLessMoreStyle}>
-                {!showCommentBox && (
-                  <span style={pointerStyle} onClick={ShowNestedCommentHandler}>
-                    {`Show ${expandNestedComments ? "less" : "more"}...`}
-                  </span>
-                )}
+                <span style={pointerStyle} onClick={ShowNestedCommentHandler}>
+                  {`Show ${expandNestedComments ? "less" : "more"}...`}
+                </span>
               </div>
             )}
           </div>
@@ -197,6 +195,7 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
           setHasNestedComments={setHasNestedComments}
           expandNestedComments={expandNestedComments}
           parentId={cmt.parentId}
+          setExpandNestedComments={setExpandNestedComments}
         />
       </div>
     </div>

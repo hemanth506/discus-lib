@@ -30,6 +30,7 @@ export type CommentBoxCompType = {
   setHasNestedComments?: React.Dispatch<React.SetStateAction<boolean>>;
   expandNestedComments?: boolean;
   parentId: string | null;
+  setExpandNestedComments?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type CommentCompType = {
