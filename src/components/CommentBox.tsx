@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { CommentBoxCompType, CommentType } from "../utils";
 import { Comment } from "./Comment";
 import { v4 as uuidv4 } from "uuid";
@@ -9,13 +9,16 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
   isReply,
   showCommentBox,
   setShowCommentBox,
-  inputRef
+  inputRef,
+  expandNestedComments,
+  parentId,
 }) => {
   const [comment, setComment] = useState("");
-  
 
   useEffect(() => {
-    inputRef.current?.focus();
+    if (inputRef) {
+      inputRef.current?.focus();
+    }
   });
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +38,7 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
         reply: [],
         likeCount: 0,
         dislikeCount: 0,
+        parentId: parentId,
       };
 
       setComments((prevComments: CommentType[] | undefined) => {
@@ -57,7 +61,7 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
 
   return (
     <div>
-      {(showCommentBox || !isReply) && (
+      {expandNestedComments && (showCommentBox || !isReply) && (
         <div
           id="cb-container"
           style={{ display: "flex", width: "450px", gap: "10px" }}
@@ -94,11 +98,13 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
         </div>
       )}
 
-      <div>
-        {comments?.map((cmt) => (
-          <Comment key={cmt.id} cmt={cmt} setComments={setComments} />
-        ))}
-      </div>
+      {expandNestedComments && (
+        <div>
+          {comments?.map((cmt) => (
+            <Comment key={cmt.id} cmt={cmt} setComments={setComments} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
