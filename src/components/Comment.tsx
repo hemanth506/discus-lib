@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { CommentBox } from "./CommentBox";
 import { CommentCompType, CommentType } from "../utils";
@@ -9,9 +9,13 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
   const [innerComments, setInnerComments] = useState<CommentType[] | undefined>(
     cmt.reply
   );
-  const [showCommentBox, setShowCommentBox] = useState(false);
-  const [canVote, setCanVote] = useState(true);
-  const [liked, setLiked] = useState(false);
+  const [showCommentBox, setShowCommentBox] = useState<boolean>(false);
+  const [canVote, setCanVote] = useState<boolean>(true);
+  const [liked, setLiked] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [hasNestedComments, setHasNestedComments] = useState<boolean>(true);
+  const [expandNestedComments, setExpandNestedComments] =
+    useState<boolean>(true);
 
   useEffect(() => {
     setComments((prevComments: CommentType[] | undefined) => {
@@ -27,8 +31,12 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
     });
   }, [cmt, innerComments, setComments]);
 
-  const ShowCommentHandler = (): void => {
+  const ShowCommentBoxHandler = (): void => {
     setShowCommentBox(true);
+  };
+
+  const ShowNestedCommentHandler = (): void => {
+    setExpandNestedComments((preState) => !preState);
   };
 
   const commentLikeDislikeHandler = (operation: string): void => {
@@ -102,10 +110,10 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
       }}
     >
       <div id="c-head">
-        <div id="c-name" style={{ fontWeight: "bolder" }}>
+        <div id="c-name" style={cNameStyle}>
           {cmt.userName}
         </div>
-        <div id="c-time" style={{ fontSize: "10px" }}>
+        <div id="c-time" style={cTimeStyle}>
           {timeSince(cmt.timestamp)}
         </div>
       </div>
@@ -120,79 +128,63 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
           }}
         >
           <div>{cmt.comment}</div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              margin: "0px 3px",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                fontSize: "14px",
-                gap: "5px",
-                padding: "5px 0px",
-              }}
-            >
-              <span style={{ width: "40px", display: "flex", gap: "4px" }}>
-                <span
-                  style={{ cursor: "pointer" }}
-                  onClick={
-                    canVote || !liked
-                      ? () => commentLikeDislikeHandler("like")
-                      : () => {}
-                  }
-                >
-                  <img
-                    src={thumbsUp}
-                    alt="thumbs-up"
-                    style={{ width: "15px" }}
-                  />
+          <div style={commentOptionsOuterDivStyle}>
+            <div style={commentOptionsInnerDivStyle}>
+              <div style={commentOptionLeftDivStyle}>
+                <span style={likeDislikeSpanStyle}>
+                  <span
+                    style={pointerStyle}
+                    onClick={
+                      canVote || !liked
+                        ? () => commentLikeDislikeHandler("like")
+                        : () => {}
+                    }
+                  >
+                    <img src={thumbsUp} alt="thumbs-up" style={thumbStyle} />
+                  </span>
+                  <span style={likeDislikeCountStyle}>
+                    {cmt.likeCount !== 0 && cmt.likeCount}
+                  </span>
                 </span>
-                <span style={{ paddingTop: "1px" }}>
-                  {cmt.likeCount !== 0 && cmt.likeCount}
-                </span>
-              </span>
 
-              <span style={{ width: "40px", display: "flex", gap: "4px" }}>
-                <span
-                  style={{ cursor: "pointer" }}
-                  onClick={
-                    canVote || liked
-                      ? () => commentLikeDislikeHandler("dislike")
-                      : () => {}
-                  }
-                >
-                  <img
-                    src={thumbsDown}
-                    alt="thumbs-up"
-                    style={{ width: "15px" }}
-                  />
+                <span style={likeDislikeSpanStyle}>
+                  <span
+                    style={pointerStyle}
+                    onClick={
+                      canVote || liked
+                        ? () => commentLikeDislikeHandler("dislike")
+                        : () => {}
+                    }
+                  >
+                    <img
+                      src={thumbsDown}
+                      alt="thumbs-down"
+                      style={thumbStyle}
+                    />
+                  </span>
+                  <span style={likeDislikeCountStyle}>
+                    {cmt.dislikeCount !== 0 && cmt.dislikeCount}
+                  </span>
                 </span>
-                <span style={{ paddingTop: "1px" }}>
-                  {cmt.dislikeCount !== 0 && cmt.dislikeCount}
-                </span>
-              </span>
-            </div>
+              </div>
 
-            <div
-              style={{
-                display: "flex",
-                fontSize: "14px",
-                padding: "5px 0px",
-              }}
-            >
-              {!showCommentBox && (
-                <span
-                  style={{ cursor: "pointer" }}
-                  onClick={ShowCommentHandler}
-                >
-                  Reply
-                </span>
-              )}
+              <div style={replyDivStyle}>
+                {!showCommentBox && (
+                  <span style={pointerStyle} onClick={ShowCommentBoxHandler}>
+                    Reply
+                  </span>
+                )}
+              </div>
             </div>
+            {hasNestedComments && cmt.reply[0] && (
+              <div style={showLessMoreStyle}>
+                {!showCommentBox && (
+                  <span style={pointerStyle} onClick={ShowNestedCommentHandler}>
+                    {`Show ${expandNestedComments ? "less" : "more"}...`}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <CommentBox
@@ -201,8 +193,48 @@ export const Comment: React.FC<CommentCompType> = ({ cmt, setComments }) => {
           isReply={true}
           showCommentBox={showCommentBox}
           setShowCommentBox={setShowCommentBox}
+          inputRef={inputRef}
+          setHasNestedComments={setHasNestedComments}
+          expandNestedComments={expandNestedComments}
+          parentId={cmt.parentId}
         />
       </div>
     </div>
   );
+};
+
+const pointerStyle = { cursor: "pointer" };
+const cTimeStyle = { fontSize: "10px" };
+const cNameStyle = { fontWeight: "bolder" };
+const likeDislikeSpanStyle = { width: "40px", display: "flex", gap: "4px" };
+const likeDislikeCountStyle = { paddingTop: "1px" };
+const thumbStyle = { width: "15px" };
+const showLessMoreStyle = {
+  display: "flex",
+  fontSize: "12px",
+  padding: "5px 0px",
+  alignItems: "center",
+  letterSpacing: "-0.25px",
+};
+const replyDivStyle = {
+  display: "flex",
+  fontSize: "14px",
+  padding: "5px 0px",
+};
+const commentOptionsOuterDivStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  marginRight: "15px",
+};
+const commentOptionsInnerDivStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  margin: "0px 3px",
+};
+const commentOptionLeftDivStyle = {
+  display: "flex",
+  fontSize: "14px",
+  gap: "5px",
+  padding: "5px 0px",
 };

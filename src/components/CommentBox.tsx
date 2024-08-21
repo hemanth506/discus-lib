@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { Comment } from "./Comment";
@@ -11,9 +11,18 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
   isReply,
   showCommentBox,
   setShowCommentBox,
+  inputRef,
+  expandNestedComments,
+  parentId,
 }) => {
   const userName = useUserName();
   const [comment, setComment] = useState("");
+
+  useEffect(() => {
+    if (inputRef) {
+      inputRef.current?.focus();
+    }
+  });
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     setComment(e.target.value);
@@ -32,6 +41,7 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
         reply: [],
         likeCount: 0,
         dislikeCount: 0,
+        parentId,
       };
 
       setComments((prevComments: CommentType[] | undefined) => {
@@ -54,25 +64,20 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
 
   return (
     <div>
-      {(showCommentBox || !isReply) && (
-        <div id="cb-container" style={{ display: "flex", gap: "10px" }}>
+      {expandNestedComments && (showCommentBox || !isReply) && (
+        <div id="cb-container" style={containerStyle}>
           <input
             type="text"
             aria-label="comment-box"
             placeholder={isReply ? "Add your comment" : "Join the discussion"}
-            style={{
-              width: "100%",
-              height: "30px",
-              borderRadius: "5px",
-              borderWidth: "1px",
-            }}
+            style={inputStyle}
             value={comment}
             onChange={onChangeHandler}
           />
           <input
             type="button"
             value="Comment"
-            style={{ borderRadius: "5px", borderWidth: "1px" }}
+            style={buttonStyle}
             onClick={addCommentHandler}
           />
 
@@ -80,18 +85,29 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
             <input
               type="button"
               value="Cancel"
-              style={{ borderRadius: "5px", borderWidth: "1px" }}
+              style={buttonStyle}
               onClick={HideCommentHandler}
             />
           )}
         </div>
       )}
 
-      <div>
-        {comments?.map((cmt) => (
-          <Comment key={cmt.id} cmt={cmt} setComments={setComments} />
-        ))}
-      </div>
+      {expandNestedComments && (
+        <div>
+          {comments?.map((cmt) => (
+            <Comment key={cmt.id} cmt={cmt} setComments={setComments} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
+
+const containerStyle = { display: "flex", gap: "10px" };
+const inputStyle = {
+  width: "100%",
+  height: "30px",
+  borderRadius: "5px",
+  borderWidth: "1px",
+};
+const buttonStyle = { borderRadius: "5px", borderWidth: "1px" };

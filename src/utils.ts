@@ -12,6 +12,7 @@ export type CommentType = {
   reply: CommentType[];
   likeCount: number;
   dislikeCount: number;
+  parentId: string | null;
 };
 
 export type CommentContextType = [
@@ -25,6 +26,10 @@ export type CommentBoxCompType = {
   isReply: boolean;
   setShowCommentBox?: React.Dispatch<React.SetStateAction<boolean>>;
   showCommentBox?: boolean;
+  inputRef?: React.MutableRefObject<HTMLInputElement | null>;
+  setHasNestedComments?: React.Dispatch<React.SetStateAction<boolean>>;
+  expandNestedComments?: boolean;
+  parentId: string | null;
 };
 
 export type CommentCompType = {

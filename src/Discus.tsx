@@ -17,15 +17,11 @@ const Discus: React.FC<DiscusProps> = ({
   const [comments, setComments] = useState<CommentType[] | undefined>(
     discussion
   );
+  const [expandNestedComments, ] = useState(true);
 
   useEffect(() => {
     setDiscussion(comments);
-    // console.log("SetDiscussion triggered", comments);
   }, [comments, setDiscussion]);
-
-  // useEffect(() => {
-  //   console.log(comments);
-  // }, [comments]);
 
   return (
     <div className="App">
@@ -35,6 +31,8 @@ const Discus: React.FC<DiscusProps> = ({
             comments={comments}
             setComments={setComments}
             isReply={false}
+            expandNestedComments={expandNestedComments}
+            parentId={null}
           />
         </CommentContext.Provider>
       </UserNameContext.Provider>
