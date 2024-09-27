@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { CommentBoxCompType, CommentType } from "../utils";
 import { Comment } from "./Comment";
 import { v4 as uuidv4 } from "uuid";
+import { Filter } from "bad-words";
 
 export const CommentBox: React.FC<CommentBoxCompType> = ({
   comments,
@@ -15,6 +16,12 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
   setExpandNestedComments
 }) => {
   const [comment, setComment] = useState("");
+  const filter = new Filter();
+
+  useEffect(() => {
+    const badWords = ["bullshit"];
+    filter.addWords(...badWords)
+  }, [])
 
   useEffect(() => {
     if (inputRef) {
@@ -34,7 +41,7 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
       const newComment: CommentType = {
         id,
         userName: `Hemanth Raaj`,
-        comment,
+        comment: filter.clean(comment),
         timestamp,
         reply: [],
         likeCount: 0,
@@ -50,7 +57,7 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
 
       setComment("");
       HideCommentHandler();
-      if(setExpandNestedComments) {
+      if (setExpandNestedComments) {
         setExpandNestedComments(true);
       }
     }
@@ -105,7 +112,11 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
       {expandNestedComments && (
         <div>
           {comments?.map((cmt) => (
-            <Comment key={cmt.id} cmt={cmt} setComments={setComments} />
+            <Comment
+              key={cmt.id}
+              cmt={cmt}
+              setComments={setComments}
+            />
           ))}
         </div>
       )}
