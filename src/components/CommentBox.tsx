@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { Filter } from "bad-words";
 
 import { Comment } from "./Comment";
 import { CommentBoxCompType, CommentType } from "../utils";
@@ -18,6 +19,12 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
 }) => {
   const userName = useUserName();
   const [comment, setComment] = useState("");
+  const filter = new Filter();
+
+  useEffect(() => {
+    const badWords = ["bullshit"];
+    filter.addWords(...badWords)
+  }, [])
 
   useEffect(() => {
     if (inputRef) {
@@ -37,7 +44,7 @@ export const CommentBox: React.FC<CommentBoxCompType> = ({
       const newComment: CommentType = {
         id,
         userName,
-        comment,
+        comment: filter.clean(comment),
         timestamp,
         reply: [],
         likeCount: 0,
